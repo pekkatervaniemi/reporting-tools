@@ -1,0 +1,70 @@
+version: "3.8"
+
+services:
+  postgres-server:
+    image: postgres:latest
+    volumes:
+      - postgres-database:/var/lib/postgresql/data
+    env_file:
+      - .env_db_pgsql
+    stop_grace_period: 1m
+    network:
+      - 'management-net'
+    aliases:
+      - postgres-server
+      - pgsql-server
+      - pgsql-database
+  
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    env_file:
+      - .env_pgadmin
+    ports:
+      - '5050:80'
+    network:
+      - 'management-net'
+      
+  mariadb-server:
+    image: mariadb:latest
+    restart: always
+    env_file:
+      - .env_db_mariadb
+    network:
+      - 'management-net'
+    volumes:
+      - mariadb-database:/var/lib/mysql
+  
+  adnimer-server:
+    image: adminer
+    restart: always
+    ports:
+      - '8080:8080'
+    network:
+      - 'management-net'
+  
+  grafana-server:
+    image: 'grafana:latest'
+    network:
+      - 'management-net'
+    env_file:
+      - ./.env_grafana
+    ports:
+      - '3000:3000'
+    aliases:
+      - grafana-server
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ${PWD}/grafana.ini:/etc/grafana/grafana.ini
+
+  influx-server:
+    image: 'influxdb:latest'
+    network:
+      - 'management-net'
+    aliases:
+      - influx-server
+    volumes:
+      - influxdb-storage:/var/lib/influxdb
+    ports:
+      - '8086:8086'
+      
