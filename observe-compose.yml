@@ -71,6 +71,8 @@ services:
     image: prom/prometheus:latest
     ports:
       - '9000:9090'
+    network:
+      - 'management-net'
     volumes:
       - ${PWD}/prometheus:/etc/prometheus
       - prometheus-data:/prometheus
