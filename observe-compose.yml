@@ -67,4 +67,13 @@ services:
       - influxdb-storage:/var/lib/influxdb
     ports:
       - '8086:8086'
-      
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - '9000:9090'
+    volumes:
+      - ${PWD}/prometheus:/etc/prometheus
+      - prometheus-data:/prometheus
+    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+
+
