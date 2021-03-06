@@ -1,1 +1,14 @@
 Reporting and monitoring stack with grafana influx mariadb postgres and prometheus
+
+GUI
+grafana
+
+Databases
+  influxdb
+  mariadb
+  postgres
+  prometheus
+
+DB tools
+  pgadmin4
+  adminer
